@@ -16,17 +16,17 @@ import dagger.Provides;
 @Module(includes = {FragmentBuilderModule.class})
 public class HomeFragmentModule {
 
+//
+//    @Provides
+//    HomeViewModel provideHomeViewModel(@Named("HomeFragment") DummyDependence dummyDependence) {
+//        return new HomeViewModel(dummyDependence);
+//    }
 
-    @Provides
-    HomeViewModel provideHomeViewModel(@Named("HomeFragment") DummyDependence dummyDependence) {
-        return new HomeViewModel(dummyDependence);
-    }
-
-    @Provides
-    @Named("HomeFragment")
-    ViewModelProvider.Factory provideViewModelFactory(Provider<HomeViewModel> provider) {
-        return new HomeViewModel.Factory(provider);
-    }
+//    @Provides
+//    @Named("HomeFragment")
+//    ViewModelProvider.Factory provideViewModelFactory(Provider<HomeViewModel> provider) {
+//        return new HomeViewModel.Factory(provider);
+//    }
 
     @Provides
     @Named("HomeFragment")

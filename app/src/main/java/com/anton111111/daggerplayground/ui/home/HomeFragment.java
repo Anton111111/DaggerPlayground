@@ -34,8 +34,9 @@ public class HomeFragment extends Fragment implements HasSupportFragmentInjector
     @Inject
     DispatchingAndroidInjector<Fragment> dispatchingAndroidInjector;
 
+
+    //@Named("HomeFragment")
     @Inject
-    @Named("HomeFragment")
     ViewModelProvider.Factory viewModelFactory;
 
     private HomeViewModel mViewModel;

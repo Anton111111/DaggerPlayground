@@ -4,6 +4,8 @@ import android.util.Log;
 
 import com.anton111111.daggerplayground.common.DummyDependence;
 
+import javax.inject.Inject;
+import javax.inject.Named;
 import javax.inject.Provider;
 
 import androidx.annotation.NonNull;
@@ -14,8 +16,8 @@ public class HomeViewModel extends ViewModel {
 
     private static final String TAG = "HomeViewModel";
 
-
-    public HomeViewModel(DummyDependence dummyDependence) {
+    @Inject
+    public HomeViewModel(@Named("HomeFragment") DummyDependence dummyDependence) {
         Log.e(TAG, "!!!Create: " + dummyDependence.value);
     }
 

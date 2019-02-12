@@ -1,5 +1,7 @@
 package com.anton111111.daggerplayground.ui.app;
 
+import android.util.Log;
+
 import javax.inject.Inject;
 
 import androidx.lifecycle.ViewModel;
@@ -13,6 +15,7 @@ public class SharedViewModel extends ViewModel {
 
     @Inject
     public SharedViewModel() {
+        Log.e(TAG, "!!!Constructor");
     }
 
 

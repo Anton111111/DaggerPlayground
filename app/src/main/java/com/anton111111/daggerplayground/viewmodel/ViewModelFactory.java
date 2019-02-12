@@ -12,7 +12,6 @@ import javax.inject.Singleton;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
-@Singleton
 public class ViewModelFactory implements ViewModelProvider.Factory {
 
 
@@ -24,7 +23,7 @@ public class ViewModelFactory implements ViewModelProvider.Factory {
     @Inject
     public ViewModelFactory(Map<Class<? extends ViewModel>, Provider<ViewModel>> viewModels) {
         uuid = UUID.randomUUID();
-        TAG += " (" + uuid + ")";
+        TAG = "ViewModelFactory (" + uuid + ")";
         Log.e(TAG, "!!!Constructor:" + viewModels);
         this.viewModels = viewModels;
     }

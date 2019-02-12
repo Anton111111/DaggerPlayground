@@ -6,35 +6,16 @@ import com.anton111111.daggerplayground.common.DummyDependence;
 
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.inject.Provider;
 
-import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
-import androidx.lifecycle.ViewModelProvider;
 
 public class HomeViewModel extends ViewModel {
 
     private static final String TAG = "HomeViewModel";
 
     @Inject
-    public HomeViewModel(@Named("HomeFragment") DummyDependence dummyDependence) {
+    public HomeViewModel(@Named("HomeFragmentDummyDependence") DummyDependence dummyDependence) {
         Log.e(TAG, "!!!Create: " + dummyDependence.value);
     }
 
-
-    public static class Factory implements ViewModelProvider.Factory {
-
-        private final Provider<HomeViewModel> provider;
-
-        public Factory(Provider<HomeViewModel> provider) {
-            Log.e(TAG, "!!!Create factory");
-            this.provider = provider;
-        }
-
-        @SuppressWarnings("unchecked")
-        @Override
-        public HomeViewModel create(@NonNull Class modelClass) {
-            return provider.get();
-        }
-    }
 }

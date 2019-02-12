@@ -4,11 +4,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
 import dagger.android.AndroidInjection;
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.support.HasSupportFragmentInjector;
 
 import android.os.Bundle;
+import android.util.Log;
 
 import com.anton111111.daggerplayground.R;
 import com.anton111111.daggerplayground.common.DummyDependence;
@@ -25,8 +28,8 @@ public class AppActivity extends AppCompatActivity implements HasSupportFragment
     @Inject
     DispatchingAndroidInjector<Fragment> dispatchingAndroidInjector;
 
-//    @Inject
-//    ViewModelProvider.Factory viewModelFactory;
+    @Inject
+    ViewModelProvider.Factory viewModelFactory;
 
     private SharedViewModel mSharedViewModel;
     private AppActivityBinding mBinding;
@@ -36,12 +39,12 @@ public class AppActivity extends AppCompatActivity implements HasSupportFragment
         super.onCreate(savedInstanceState);
         getLifecycle().addObserver(new LogLifecycleObserver(TAG));
         AndroidInjection.inject(this);
-        //mSharedViewModel = ViewModelProviders.of(this, viewModelFactory).get(SharedViewModel.class);
+        mSharedViewModel = ViewModelProviders.of(this, viewModelFactory).get(SharedViewModel.class);
         mBinding = DataBindingUtil.setContentView(this, R.layout.app_activity);
         mBinding.setAppActivity(this);
 
         if (savedInstanceState == null) {
-            openFragment(HomeFragment.class);
+            //openFragment(HomeFragment.class);
         }
     }
 
@@ -60,12 +63,33 @@ public class AppActivity extends AppCompatActivity implements HasSupportFragment
         if (!fragment.isVisible()) {
             fragmentManager.beginTransaction()
                     .replace(mBinding.container.getId(), fragment, tag)
+                    .addToBackStack(tag)
                     .commit();
         }
     }
 
     public void openHomeFragment() {
         openFragment(HomeFragment.class);
+    }
+
+    @Override
+    public void onBackPressed() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        Log.e(TAG, "!!!B: " + fragmentManager.getBackStackEntryCount());
+        if (fragmentManager.getBackStackEntryCount() > 0) {
+            String tag = fragmentManager.getBackStackEntryAt(fragmentManager.getBackStackEntryCount() - 1).getName();
+            Fragment fragmentByTag = fragmentManager.findFragmentByTag(tag);
+            if (fragmentByTag != null) {
+                FragmentManager childFragmentManager = fragmentByTag.getChildFragmentManager();
+                if (childFragmentManager != null && childFragmentManager.getBackStackEntryCount() > 0) {
+                    childFragmentManager.popBackStack();
+                    return;
+                }
+            }
+            fragmentManager.popBackStack();
+            return;
+        }
+        super.onBackPressed();
     }
 
     @Override

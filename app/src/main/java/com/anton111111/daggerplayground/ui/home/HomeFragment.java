@@ -35,8 +35,8 @@ public class HomeFragment extends Fragment implements HasSupportFragmentInjector
     DispatchingAndroidInjector<Fragment> dispatchingAndroidInjector;
 
 
-    //@Named("HomeFragment")
     @Inject
+    @Named("HomeFragmentViewModelFactory")
     ViewModelProvider.Factory viewModelFactory;
 
     private HomeViewModel mViewModel;
@@ -79,6 +79,7 @@ public class HomeFragment extends Fragment implements HasSupportFragmentInjector
         SubFragment subFragment = SubFragment.newInstance(new DummyDependence());
         FragmentTransaction ft = getChildFragmentManager().beginTransaction();
         ft.replace(mBinding.container.getId(), subFragment, SubFragment.TAG);
+        ft.addToBackStack(SubFragment.TAG);
         ft.commit();
     }
 

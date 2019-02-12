@@ -24,13 +24,16 @@ import com.anton111111.daggerplayground.databinding.SubFragmentBinding;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-public class SubFragment extends Fragment  {
+public class SubFragment extends Fragment implements HasSupportFragmentInjector  {
 
     public static final String TAG = "SubFragment";
     public static final String ARG_DUMMY_DEPENDENCE = "dummy_dep";
 
     @Inject
-    @Named("SubFragment")
+    DispatchingAndroidInjector<Fragment> dispatchingAndroidInjector;
+
+    @Inject
+    @Named("SubFragmentViewModelFactory")
     ViewModelProvider.Factory viewModelFactory;
 
     private SubFragmentBinding mBinding;
@@ -59,5 +62,9 @@ public class SubFragment extends Fragment  {
         mViewModel = ViewModelProviders.of(this, viewModelFactory).get(SubViewModel.class);
     }
 
+    @Override
+    public DispatchingAndroidInjector<Fragment> supportFragmentInjector() {
+        return dispatchingAndroidInjector;
+    }
 
 }

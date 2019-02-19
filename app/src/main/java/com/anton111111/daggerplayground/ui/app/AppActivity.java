@@ -6,9 +6,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
-import dagger.android.AndroidInjection;
-import dagger.android.DispatchingAndroidInjector;
-import dagger.android.support.HasSupportFragmentInjector;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -19,16 +16,12 @@ import com.anton111111.daggerplayground.common.LogLifecycleObserver;
 import com.anton111111.daggerplayground.databinding.AppActivityBinding;
 import com.anton111111.daggerplayground.ui.home.HomeFragment;
 
-import javax.inject.Inject;
 
-public class AppActivity extends AppCompatActivity implements HasSupportFragmentInjector {
+public class AppActivity extends AppCompatActivity  {
 
     private static final String TAG = "AppActivity";
 
-    @Inject
-    DispatchingAndroidInjector<Fragment> dispatchingAndroidInjector;
 
-    @Inject
     ViewModelProvider.Factory viewModelFactory;
 
     private SharedViewModel mSharedViewModel;
@@ -38,7 +31,6 @@ public class AppActivity extends AppCompatActivity implements HasSupportFragment
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getLifecycle().addObserver(new LogLifecycleObserver(TAG));
-        AndroidInjection.inject(this);
         mSharedViewModel = ViewModelProviders.of(this, viewModelFactory).get(SharedViewModel.class);
         mBinding = DataBindingUtil.setContentView(this, R.layout.app_activity);
         mBinding.setAppActivity(this);
@@ -92,9 +84,5 @@ public class AppActivity extends AppCompatActivity implements HasSupportFragment
         super.onBackPressed();
     }
 
-    @Override
-    public DispatchingAndroidInjector<Fragment> supportFragmentInjector() {
-        return dispatchingAndroidInjector;
-    }
 
 }

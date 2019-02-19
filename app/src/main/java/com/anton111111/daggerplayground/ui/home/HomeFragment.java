@@ -9,9 +9,6 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import dagger.android.DispatchingAndroidInjector;
-import dagger.android.support.AndroidSupportInjection;
-import dagger.android.support.HasSupportFragmentInjector;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -23,20 +20,12 @@ import com.anton111111.daggerplayground.common.LogLifecycleObserver;
 import com.anton111111.daggerplayground.databinding.HomeFragmentBinding;
 import com.anton111111.daggerplayground.ui.subfragment.SubFragment;
 
-import javax.inject.Inject;
-import javax.inject.Named;
 
-public class HomeFragment extends Fragment implements HasSupportFragmentInjector {
+public class HomeFragment extends Fragment {
 
     public static final String TAG = "HomeFragment";
     public static final String ARG_DUMMY_DEPENDENCE = "dummy_dep";
 
-    @Inject
-    DispatchingAndroidInjector<Fragment> dispatchingAndroidInjector;
-
-
-    @Inject
-    @Named("HomeFragmentViewModelFactory")
     ViewModelProvider.Factory viewModelFactory;
 
     private HomeViewModel mViewModel;
@@ -53,7 +42,6 @@ public class HomeFragment extends Fragment implements HasSupportFragmentInjector
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        AndroidSupportInjection.inject(this);
         Bundle arguments = getArguments();
         DummyDependence dummyDependence = null;
         if (arguments != null) {
@@ -83,9 +71,5 @@ public class HomeFragment extends Fragment implements HasSupportFragmentInjector
         ft.commit();
     }
 
-    @Override
-    public DispatchingAndroidInjector<Fragment> supportFragmentInjector() {
-        return dispatchingAndroidInjector;
-    }
 
 }
